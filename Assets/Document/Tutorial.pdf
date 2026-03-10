@@ -1,0 +1,13 @@
+
+
+KỊCH BẢN GAME
+ 
+
+1 nhân vật chính giả người  đang trà trộn vào 1 tổ chức phi chính phủ làm ăn phạm pháp với mục tiêu ,
+ tiêu diệt hết người trong tổ chức phi chính phủ đó .
+
+Nhân vật có HP 100
+có 3 hành động tấn công:  bắn sung gun (sát thương 20), bắn súng ak (25) và tấn công dao (50)
+Nhân vật cầm súng thì có tốc độ 3f, còn cầm dao thì 4f
+Enemy xuất hiện ở 1 số điểm trên map , enemy cũng giống nhân vật chính 
+Enemy có các hành động : đứng, đi tuần , phát hiện người chơi, đuổi theo, tấn công , chết
