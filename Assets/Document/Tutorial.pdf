@@ -1,13 +1,36 @@
 
 
-KỊCH BẢN GAME
+                             KỊCH BẢN GAME GUN DROP
  
 
-1 nhân vật chính giả người  đang trà trộn vào 1 tổ chức phi chính phủ làm ăn phạm pháp với mục tiêu ,
- tiêu diệt hết người trong tổ chức phi chính phủ đó .
 
-Nhân vật có HP 100
-có 3 hành động tấn công:  bắn sung gun (sát thương 20), bắn súng ak (25) và tấn công dao (50)
-Nhân vật cầm súng thì có tốc độ 3f, còn cầm dao thì 4f
-Enemy xuất hiện ở 1 số điểm trên map , enemy cũng giống nhân vật chính 
-Enemy có các hành động : đứng, đi tuần , phát hiện người chơi, đuổi theo, tấn công , chết
+Bối cảnh:  Nhân vật chính đột nhập vào tòa nhà lâu đài , được bao bọc bởi cận vệ của 1 tổ chức phi chính phủ
+Nhiệm vụ: Nhiệm vụ của người chơi là tiêu diệt hết những người trong tổ chức đó. Tiêu diệt 
+càng nhiều thì điểm sẽ càng cao. 
+
+
+
+
+Player: Tấn công 3 kỹ năng bắn súng côn ở cự ly gần thì sát thương 25, xa hơn xíu sát thương 15, nếu xa hơn nữa thì không gây sát thương.
+Bắn súng AK sát thương 20 ở 1 cự ly khá xa , nếu xa hơn nữa thì không gây sát thương.  Dùng dao sát thương 50 và tốc độ di chuyển nhanh hơn. Nếu dùng súng gôn và súng AK thì mỗi lần bắn 6 viên thì phải thay đổi vũ khí , khi thay đổi phải đợi khoảng 3 giây mới thay đổi được , không được phép dùng súng cùng 1 loại khi đã hết đạn (cái này có thể em sẽ làm thêm trường hợp súng côn và ak có thể giấu ngẫu nhiên dưới các đồ đạc trong map).
+
+Enemy: Sẽ có các kĩ năng xuất hiện ngẫu nhiên trong lâu đài, tuần tra, player vào vùng enemy thì enemy rượt theo và tấn công hoặc enemy sẽ tìm tới hướng có player và tiêu diệt 
+Enemy sẽ có 3 level 
+Level 1: tốc độ bắn , di chuyển chậm , vùng bắn súng giống với player 
+Level 2: tốc độ bắn , di chuyển nhanh , phát hiện mục tiêu xa, vùng bắn súng tốt hơn player xíu 
+Level 3: enemy có AI thông minh , phát hiện mục tiêu từ xa , tốc độ di chuyển ,vùng bắn súng xa, tốc độ bắn nhanh 
+Sát thương Enemy: giống với sát thương Player 
+HP: player và enemy đều có máu HP 100. 
+Điểm: Bắn chết 1 enemy level 1 được 10 điểm , level 2 được 20 , level 3 được 30  Player chết thì game kết thúc.
+Game này có tới 5 màn chơi: 
+Màn 1: xuất hiệu 6 enemy  level 1 ngẫu nhiên trên map (2ak, 2 côn, 2dao)
+Màn 2: Xuất hiện  6 enemy level 1 và 6 enemy level 2
+Màn 3: xuất hiện 12 enemy level 1, 6  enemy level 2, 3 enemy level 3
+Màn 3: xuất hiện 6 enemy level 1, 12 enemy level 2, 3 enemy level 3
+màn 4: 12 enemy level 2, 12 enemy level 3
+màn 5: 15 enemy level 3        
+
+
+
+
+xem chi tiết dưới link: https://docs.google.com/document/d/1KnPB2ZHMjrqlETgiK5s6tLPuLGai28_Tq-e9dgJMB08/edit?usp=sharing
