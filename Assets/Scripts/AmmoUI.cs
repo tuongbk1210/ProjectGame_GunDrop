@@ -11,8 +11,13 @@ public class AmmoUI : MonoBehaviour
         for (int i = 0; i < bullets.Length; i++)
         {
             if (i < currentAmmo)
+            {
                 bullets[i].SetActive(true);
-            else bullets[i].SetActive(false);
+            }
+            else
+            {
+                bullets[i].SetActive(false);
+            }
         }
     }
 }

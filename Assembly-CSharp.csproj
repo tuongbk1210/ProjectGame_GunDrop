@@ -86,7 +86,6 @@
     <Compile Include="Assets\Scripts\CameraFollow.cs" />
     <Compile Include="Assets\Scripts\Enemy\EnemyLevel1.cs" />
     <Compile Include="Assets\Scripts\Player\WeaponManager.cs" />
-    <Compile Include="Assets\Scripts\Player\PlayerAttack.cs" />
     <Compile Include="Assets\Scripts\AmmoUI.cs" />
   </ItemGroup>
   <ItemGroup>

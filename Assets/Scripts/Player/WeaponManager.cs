@@ -41,6 +41,7 @@ public class WeaponManager : MonoBehaviour
     }
 
     public WeaponType weaponType;
+    private WeaponType checkWeaponType;
 
     [SerializeField]
     GameObject attackPointKnife;
@@ -56,6 +57,8 @@ public class WeaponManager : MonoBehaviour
 
     [SerializeField]
     AmmoUI ammoUI;
+    [SerializeField]
+    GameObject bulletManager;
 
     void Awake()
     {
@@ -98,9 +101,6 @@ public class WeaponManager : MonoBehaviour
     {
         if (totalAmmoUsed >= 12)
         {
-
-            Debug.Log("đã xài hết 12 viên đạn -> reset");
-
             totalAmmoUsed = 0;
             if (weaponType == WeaponType.Pistol)
             {
@@ -116,13 +116,14 @@ public class WeaponManager : MonoBehaviour
 
     public void changeKnife()
     {
-        //canAttack = true;
         if (canAttack)
         {
             if (weaponType != WeaponType.Knife)
             {
+                checkWeaponType = weaponType;
                 soundController.PlayAudio(switchKnife);
             }
+            bulletManager.SetActive(false);
             weaponType = WeaponType.Knife;
             animationController.Move(0.5f);
             animationController.Idle(1);
@@ -130,23 +131,13 @@ public class WeaponManager : MonoBehaviour
     }
     public void changeHandGun()
     {
-        //canAttack = true;
-        //if (canAttack)
-        //{
-        //    if (weaponType != WeaponType.Pistol)
-        //    {
-        //        soundController.PlayAudio(switchHandGun);
-        //    }
-        //    weaponType = WeaponType.Pistol;
-        //    if (currentAmmo == 0)
-        //        currentAmmo = maxAmmo;
-        //    else
-        //        currentAmmo = 0;
-        //    animationController.Move(0.5f);
-        //    animationController.Idle(0);
-        //}
+        bulletManager.SetActive(true);
 
         if (!canAttack) return;
+        if (shotgunAmmo == 0 && pistoAmmo == 0 && checkWeaponType != WeaponType.Pistol)
+        {
+            pistoAmmo = 6;
+        }
 
         if (weaponType != WeaponType.Pistol)
         {
@@ -162,24 +153,7 @@ public class WeaponManager : MonoBehaviour
     }
     public void changeShotGun()
     {
-        //canAttack = true;
-
-        //if (canAttack)
-        //{
-        //    if (weaponType != WeaponType.Shotgun)
-        //    {
-        //        soundController.PlayAudio(switchShotGun);
-        //    }
-        //    weaponType = WeaponType.Shotgun;
-        //    if (currentAmmo == 0)
-        //    {
-        //        currentAmmo = maxAmmo;
-        //    }
-        //    else
-        //        currentAmmo = 0;
-        //    animationController.Move(0.5f);
-        //    animationController.Idle(3);
-        //}
+        bulletManager.SetActive(true);
 
         if (!canAttack) return;
 
@@ -189,6 +163,10 @@ public class WeaponManager : MonoBehaviour
         }
 
         weaponType = WeaponType.Shotgun;
+        if (pistoAmmo == 0 && shotgunAmmo == 0 && checkWeaponType != WeaponType.Shotgun)
+        {
+            shotgunAmmo = 6;
+        }
         ammoUI.UpdateAmmo(GetCurrrentAmmo());
 
         animationController.Move(0.5f);
@@ -198,11 +176,8 @@ public class WeaponManager : MonoBehaviour
     public void playerAttack()
     {
         if (!canAttack) return;
-        //canAttack = false;
-        Debug.Log("Trigger attack");
         if (weaponType != WeaponType.Knife && GetCurrrentAmmo() <= 0)
         {
-            Debug.Log("k có đạn");
             return;
         }
         canAttack = false;
@@ -265,5 +240,4 @@ public class WeaponManager : MonoBehaviour
     {
         canAttack = true;
     }
-
 }

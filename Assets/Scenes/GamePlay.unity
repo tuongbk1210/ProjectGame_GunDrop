@@ -4491,7 +4491,8 @@ MonoBehaviour:
   attackPointKnife: {fileID: 1147254019}
   currentAmmo: 6
   maxAmmo: 6
-  ammoUI: {fileID: 0}
+  ammoUI: {fileID: 1557883784}
+  bulletManager: {fileID: 1557883780}
 --- !u!114 &1426192332
 MonoBehaviour:
   m_ObjectHideFlags: 0
