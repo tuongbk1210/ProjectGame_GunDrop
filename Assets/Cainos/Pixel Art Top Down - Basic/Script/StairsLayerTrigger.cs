@@ -42,9 +42,13 @@ namespace Cainos.PixelArtTopDown_Basic
 
             target.GetComponent<SpriteRenderer>().sortingLayerName = sortingLayer;
             SpriteRenderer[] srs = target.GetComponentsInChildren<SpriteRenderer>();
+           
             foreach (SpriteRenderer sr in srs)
             {
-                sr.sortingLayerName = sortingLayer;
+                if(sr != null)
+                {
+                    sr.sortingLayerName = sortingLayer;
+                }
             }
         }
 

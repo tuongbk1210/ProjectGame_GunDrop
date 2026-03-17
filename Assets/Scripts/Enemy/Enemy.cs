@@ -4,5 +4,9 @@ using UnityEngine;
 
 public interface IEnemy
 {
-    public void EnemyMovement();
+    public void Idle();
+    public void Patrol();
+    public void Chase();
+    public void Hurt();
+    public void Dead();
 }

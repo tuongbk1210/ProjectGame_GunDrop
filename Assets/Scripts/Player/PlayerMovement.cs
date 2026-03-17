@@ -11,11 +11,16 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField]
     Joystick joystick;
     [SerializeField]
-    float moveSpeed = 1.9f;
+    float moveSpeed = 3f;
+    [SerializeField]
+    float speed = 1.5f;
+
+    WeaponManager weaponManager;
     void Start()
     {
         animationController = GetComponent<AnimationController>();
         rb = GetComponent<Rigidbody2D>();
+        weaponManager = GetComponent<WeaponManager>();
     }
 
     void Update()
@@ -25,14 +30,21 @@ public class PlayerMovement : MonoBehaviour
         {
             float angle = Mathf.Atan2(movement.y, movement.x) * Mathf.Rad2Deg;
             transform.rotation = Quaternion.Euler(0, 0, angle);
-        } 
-        movement.x = joystick.Horizontal;
-        movement.y = joystick.Vertical;
-        animationController.Move(moveSpeed);
+            animationController.Move(speed);
+        }
+        else
+        {
+            animationController.Move(0.5f);
+        }
     }
 
     private void FixedUpdate()
     {
-        rb.velocity = movement.normalized * moveSpeed;
+        float currentSpeed = moveSpeed;
+        if(weaponManager.weaponType == WeaponManager.WeaponType.Knife)
+        {
+            currentSpeed = 4f;
+        }
+        rb.velocity = movement.normalized * currentSpeed;
     }
 }

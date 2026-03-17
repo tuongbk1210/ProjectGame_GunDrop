@@ -1,0 +1,269 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class WeaponManager : MonoBehaviour
+{
+    AnimationController animationController;
+    SoundController soundController;
+
+    [Header("Audio Clip change weapon")]
+    [SerializeField]
+    AudioClip switchHandGun;
+    [SerializeField]
+    AudioClip switchKnife;
+    [SerializeField]
+    AudioClip switchShotGun;
+
+    [Header("Audio Clip attack")]
+    [SerializeField]
+    AudioClip attackHandGun;
+    [SerializeField]
+    AudioClip attackKnife;
+    [SerializeField]
+    AudioClip attackShotGun;
+
+    [SerializeField]
+    GameObject bulletPrefab;
+    [SerializeField]
+    GameObject gunPoint;
+    [SerializeField]
+    GameObject shotGunPoint;
+
+    public float attackCooldown = 0.4f;
+    public float knifeHitTime = 0.2f;
+
+    public enum WeaponType
+    {
+        Knife,
+        Pistol,
+        Shotgun
+    }
+
+    public WeaponType weaponType;
+
+    [SerializeField]
+    GameObject attackPointKnife;
+
+    bool canAttack = true;
+
+    [Header("Ammo")]
+    public int currentAmmo;
+    int pistoAmmo;
+    int shotgunAmmo;
+    public int maxAmmo = 6;
+    int totalAmmoUsed = 0;
+
+    [SerializeField]
+    AmmoUI ammoUI;
+
+    void Awake()
+    {
+        weaponType = WeaponType.Pistol;
+        animationController = GetComponent<AnimationController>();
+        soundController = GetComponent<SoundController>();
+    }
+    void Start()
+    {
+        pistoAmmo = maxAmmo;
+        shotgunAmmo = maxAmmo;
+        totalAmmoUsed = 0;
+        ammoUI.UpdateAmmo(GetCurrrentAmmo());
+    }
+
+    int GetCurrrentAmmo()
+    {
+        if (weaponType == WeaponType.Pistol)
+            return pistoAmmo;
+        if (weaponType == WeaponType.Shotgun)
+            return shotgunAmmo;
+        return 0;
+    }
+
+    void useAmmo()
+    {
+        if (weaponType == WeaponType.Pistol)
+        {
+            pistoAmmo--;
+        }
+        else if (weaponType == WeaponType.Shotgun)
+        {
+            shotgunAmmo--;
+        }
+        totalAmmoUsed++;
+        CheckResetAmmo();
+    }
+
+    void CheckResetAmmo()
+    {
+        if (totalAmmoUsed >= 12)
+        {
+
+            Debug.Log("đã xài hết 12 viên đạn -> reset");
+
+            totalAmmoUsed = 0;
+            if (weaponType == WeaponType.Pistol)
+            {
+                shotgunAmmo = maxAmmo;
+            }
+            else if (weaponType == WeaponType.Shotgun)
+            {
+                pistoAmmo = maxAmmo;
+            }
+
+        }
+    }
+
+    public void changeKnife()
+    {
+        //canAttack = true;
+        if (canAttack)
+        {
+            if (weaponType != WeaponType.Knife)
+            {
+                soundController.PlayAudio(switchKnife);
+            }
+            weaponType = WeaponType.Knife;
+            animationController.Move(0.5f);
+            animationController.Idle(1);
+        }
+    }
+    public void changeHandGun()
+    {
+        //canAttack = true;
+        //if (canAttack)
+        //{
+        //    if (weaponType != WeaponType.Pistol)
+        //    {
+        //        soundController.PlayAudio(switchHandGun);
+        //    }
+        //    weaponType = WeaponType.Pistol;
+        //    if (currentAmmo == 0)
+        //        currentAmmo = maxAmmo;
+        //    else
+        //        currentAmmo = 0;
+        //    animationController.Move(0.5f);
+        //    animationController.Idle(0);
+        //}
+
+        if (!canAttack) return;
+
+        if (weaponType != WeaponType.Pistol)
+        {
+            soundController.PlayAudio(switchHandGun);
+        }
+
+        weaponType = WeaponType.Pistol;
+        ammoUI.UpdateAmmo(GetCurrrentAmmo());
+
+        animationController.Move(0.5f);
+        animationController.Idle(0);
+
+    }
+    public void changeShotGun()
+    {
+        //canAttack = true;
+
+        //if (canAttack)
+        //{
+        //    if (weaponType != WeaponType.Shotgun)
+        //    {
+        //        soundController.PlayAudio(switchShotGun);
+        //    }
+        //    weaponType = WeaponType.Shotgun;
+        //    if (currentAmmo == 0)
+        //    {
+        //        currentAmmo = maxAmmo;
+        //    }
+        //    else
+        //        currentAmmo = 0;
+        //    animationController.Move(0.5f);
+        //    animationController.Idle(3);
+        //}
+
+        if (!canAttack) return;
+
+        if (weaponType != WeaponType.Shotgun)
+        {
+            soundController.PlayAudio(switchShotGun);
+        }
+
+        weaponType = WeaponType.Shotgun;
+        ammoUI.UpdateAmmo(GetCurrrentAmmo());
+
+        animationController.Move(0.5f);
+        animationController.Idle(3);
+    }
+
+    public void playerAttack()
+    {
+        if (!canAttack) return;
+        //canAttack = false;
+        Debug.Log("Trigger attack");
+        if (weaponType != WeaponType.Knife && GetCurrrentAmmo() <= 0)
+        {
+            Debug.Log("k có đạn");
+            return;
+        }
+        canAttack = false;
+        animationController.PlayerAttack();
+        Attack();
+        if (weaponType != WeaponType.Knife)
+        {
+            useAmmo();
+            ammoUI.UpdateAmmo(GetCurrrentAmmo());
+        }
+        Invoke("EndAttack", attackCooldown);
+    }
+
+    public void Attack()
+    {
+        switch (weaponType)
+        {
+            case WeaponType.Pistol:
+                HandGunAttack();
+                break;
+            case WeaponType.Knife:
+                KnifeAttack();
+                break;
+            case WeaponType.Shotgun:
+                ShotGunAttack();
+                break;
+        }
+    }
+
+    public void HandGunAttack()
+    {
+        soundController.PlayAudio(attackHandGun);
+        GameObject bullet = Instantiate(bulletPrefab, gunPoint.transform.position, gunPoint.transform.rotation);
+        ManagerBullet bulletScript = bullet.GetComponent<ManagerBullet>();
+        bulletScript.weaponType = weaponType;
+    }
+    public void ShotGunAttack()
+    {
+        soundController.PlayAudio(attackShotGun);
+        GameObject bullet = Instantiate(bulletPrefab, shotGunPoint.transform.position, shotGunPoint.transform.rotation);
+        ManagerBullet bulletScript = bullet.GetComponent<ManagerBullet>();
+        bulletScript.weaponType = weaponType;
+    }
+    public void KnifeAttack()
+    {
+        soundController.PlayAudio(attackKnife);
+        if (attackPointKnife != null)
+        {
+            attackPointKnife.SetActive(true);
+            Invoke("DisableAttack", knifeHitTime);
+        }
+    }
+
+    public void DisableAttack()
+    {
+        attackPointKnife.SetActive(false);
+    }
+
+    public void EndAttack()
+    {
+        canAttack = true;
+    }
+
+}

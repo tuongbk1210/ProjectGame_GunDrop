@@ -4,13 +4,16 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    // Start is called before the first frame update
+    [SerializeField]
+    AudioClip bgMusic;
+
+    SoundController soudController;
     void Start()
     {
-        
+        soudController = GetComponent<SoundController>();
+        soudController.PlayMusic(bgMusic);
     }
 
-    // Update is called once per frame
     void Update()
     {
         

@@ -5,24 +5,18 @@ using UnityEngine;
 public class SoundController : MonoBehaviour
 {
     [Header("Audio Sources")]
-    public AudioSource audioSource;
-    public AudioSource bgMusicSource;
-
-    [Header("Sound Clips")]
-    [SerializeField]
-    AudioClip gunBullet;
-    [SerializeField]
-    AudioClip akBullet;
-    [SerializeField]
-    AudioClip knife;
-    [SerializeField]
-    AudioClip bgMusic;
+    AudioSource audioSource;
+    AudioSource bgMusicSource;
 
     public void PlayAudio(AudioClip clip)
     {
         audioSource.PlayOneShot(clip);
     }
-
+    private void Awake()
+    {
+        bgMusicSource = GetComponent<AudioSource>();   
+        audioSource =   GetComponent<AudioSource>();
+    }
     public void PlayMusic(AudioClip clip)
     {
         bgMusicSource.clip = clip;

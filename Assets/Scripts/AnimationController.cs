@@ -25,6 +25,10 @@ public class AnimationController : MonoBehaviour
         animator.SetBool("shoot", shoot);
     }
 
+    public void PlayerAttack()
+    {
+        animator.SetTrigger("attack");
+    }
     public void Dead()
     {
         animator.SetBool("dead", true);
