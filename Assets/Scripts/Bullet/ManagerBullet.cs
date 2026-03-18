@@ -63,6 +63,13 @@ public class ManagerBullet : MonoBehaviour
         return 0;
     }
 
+    public void SetLayer(SpriteRenderer owner)
+    {
+        SpriteRenderer sr = GetComponent<SpriteRenderer>(); 
+        sr.sortingLayerID = owner.sortingLayerID;
+        sr.sortingOrder = owner.sortingOrder;
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         //if (collision.CompareTag(ownerTag))

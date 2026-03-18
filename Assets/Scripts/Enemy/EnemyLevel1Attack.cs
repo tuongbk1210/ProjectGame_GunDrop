@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EmenyLevel1Attack : MonoBehaviour
+public class EnemyLevel1Attack : MonoBehaviour
 {
     private AnimationController animationController;
     private SoundController soundController;
@@ -31,9 +31,9 @@ public class EmenyLevel1Attack : MonoBehaviour
 
     [Header("Distance Attack")]
     [SerializeField]
-    float detectAttack = 4f;
+    float detectAttack = 7f;
     [SerializeField]
-    float detectHandGunAttack = 2f;
+    float detectHandGunAttack = 4f;
 
     PlayerHealth playerHealth;
 
@@ -48,44 +48,47 @@ public class EmenyLevel1Attack : MonoBehaviour
     {
         animationController = GetComponent<AnimationController>();
         soundController = GetComponent<SoundController>();
-        playerHealth = GetComponent<PlayerHealth>();
+        //playerHealth = GetComponent<PlayerHealth>();
     }
     public void KnifeAttack()
     {
-        animationController.Attack(true);
+        animationController.PlayerAttack();
         checkKnifeAttack = true;
         soundController.PlayAudio(audioClipKnifeAttack);
     }
     public void HandGunAttack()
     {
-        fireBullet();
+        FireBullet();
         float distance = Vector3.Distance(player.position, gameObject.transform.position);
-        if (distance <= detectAttack && distance > detectHandGunAttack)
+        if(playerHealth != null)
         {
-            playerHealth.TakeDamage(danmageHandGonNormal);
-        }
-        else if (distance <= detectHandGunAttack)
-        {
-            playerHealth.TakeDamage(damageHandGon);
+            if (distance <= detectAttack && distance > detectHandGunAttack)
+            {
+                playerHealth.TakeDamage(danmageHandGonNormal);
+            }
+            else if (distance <= detectHandGunAttack)
+            {
+                playerHealth.TakeDamage(damageHandGon);
+            }
         }
         soundController.PlayAudio(audioClipHandGonAttack);
     }
 
     public void AKAttack()
     {
-        fireBullet();
-        playerHealth.TakeDamage(damageAk);
+        FireBullet();
+        //playerHealth.TakeDamage(damageAk);
         soundController.PlayAudio(audioClipAkAttack);
     }
 
     public void ShotGunAttack()
     {
-        fireBullet();
-        playerHealth.TakeDamage(damageHandShot);
+        FireBullet();
+        //playerHealth.TakeDamage(damageHandShot);
         soundController.PlayAudio(audioClipHandshotAttack);
     }
 
-    public void fireBullet()
+    public void FireBullet()
     {
         GameObject bullet = Instantiate(bulletPrefab, gunPoint.position, gunPoint.rotation);
         Rigidbody2D rb = bullet.GetComponent<Rigidbody2D>();

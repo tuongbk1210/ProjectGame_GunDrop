@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,11 +7,10 @@ public class EnemyLevel1 : MonoBehaviour, IEnemy
 {
     public enum EmenyState
     {
-        Idle,
-        Patrol,
-        Chase,
-        Hurt,
-        Dead
+        Idle, // đứng yên
+        Chase, // phát hiện
+        Hurt, // đau 
+        Dead // chết
     }
 
     public enum WeaponType
@@ -26,8 +25,6 @@ public class EnemyLevel1 : MonoBehaviour, IEnemy
     public WeaponType weaponType;
 
     public Transform player;
-    [SerializeField]
-    float speed = 0.5f;
     public BoxCollider2D knifeCollider;
     private AnimationController animationController;
     private Rigidbody2D rg;
@@ -35,45 +32,48 @@ public class EnemyLevel1 : MonoBehaviour, IEnemy
     public LayerMask obstacleLayer;
     public float avoidDistance = 0.6f;
 
-    EmenyLevel1Attack enemyLevel1Attack;
+    EnemyLevel1Attack enemyLevel1Attack;
 
     [Header("Move")]
     [SerializeField]
     float moveSpeed = 3f;
     [SerializeField]
-    float moveSpeedKnife = 4f;
+    float moveSpeedKnife = 3.5f;
 
     [Header("Detect")]
     [SerializeField]
-    float detectRadius = 6f;
+    float detectRadius = 7f;
     [SerializeField]
     float detectAttack = 4f;
-    //[SerializeField]
-    //float detectHandGunAttack = 2f;
 
     [Header("Patrol")]
     [SerializeField]
-    Vector2 location_1 = new Vector2(-2, 15);
+    Vector3 location = new Vector3(0, 15, 0);
+
+    public float attackCoooldown = 3f;
+    private float lastAttackTime;
+
     [SerializeField]
-    Vector2 location_2 = new Vector2(2.8f, 14.3f);
-    Vector2 target;
+    float keepDistance = 3f;
+
+    void Awake()
+    {
+        animationController = GetComponent<AnimationController>();
+        rg = GetComponent<Rigidbody2D>();
+        enemyLevel1Attack = GetComponent<EnemyLevel1Attack>();
+    }
 
     void Start()
     {
-        currentState = EmenyState.Patrol;
-        animationController = GetComponent<AnimationController>();
-        rg = GetComponent<Rigidbody2D>();
-        enemyLevel1Attack = GetComponent<EmenyLevel1Attack>();
-        transform.position = location_1;
-        target = location_2;
-        if(weaponType == WeaponType.Knife)
-        {
-            knifeCollider.enabled = true;
-        }
-        else
-        {
-            knifeCollider.enabled = false;
-        }
+        currentState = EmenyState.Idle;
+
+        gameObject.transform.position = location;
+
+        if (knifeCollider != null)
+            knifeCollider.enabled = (weaponType == WeaponType.Knife);
+
+        SetUPIdleAnimation();
+
     }
 
     void Update()
@@ -82,8 +82,6 @@ public class EnemyLevel1 : MonoBehaviour, IEnemy
         {
             case EmenyState.Idle:
                 Idle(); break;
-            case EmenyState.Patrol:
-                Patrol(); break;
             case EmenyState.Chase:
                 Chase(); break;
             case EmenyState.Hurt:
@@ -93,80 +91,126 @@ public class EnemyLevel1 : MonoBehaviour, IEnemy
         }
 
         float distance = Vector2.Distance(transform.position, player.position);
+
+        if (player == null || currentState == EmenyState.Dead) return;
+
+
         if (player.gameObject.layer != gameObject.layer)
         {
             currentState = EmenyState.Idle;
         }
-        if (distance <= detectRadius && player.gameObject.layer == gameObject.layer)
+        else if (distance <= detectRadius)
         {
             currentState = EmenyState.Chase;
-            
+
             if (distance <= detectAttack)
             {
                 if (distance <= 1f && weaponType == WeaponType.Knife)
                 {
-                    enemyLevel1Attack.KnifeAttack();
-                } else if(distance > 1f && weaponType == WeaponType.Knife)
+                    if (CanAttack())
+                    {
+                        lastAttackTime = Time.time;
+                        enemyLevel1Attack.KnifeAttack();
+                    }
+                }
+                else if (distance > 1f && weaponType == WeaponType.Knife)
                 {
                     currentState = EmenyState.Chase;
-                    animationController.Attack(false);
-                }else
+                    //animationController.PlayerAttack();
+                }
+                else
                 {
-                    Attack();
-                    animationController.Attack(true);
+                    if (CanAttack())
+                    {
+                        lastAttackTime = Time.time;
+
+                        Attack();
+                        animationController.PlayerAttack();
+                    }
                 }
             }
             else
             {
-                animationController.Attack(false);
-                currentState = EmenyState.Idle;
+                //animationController.PlayerAttack();
+                currentState = EmenyState.Chase;
             }
         }
         else
         {
-            currentState = EmenyState.Patrol;
+            currentState = EmenyState.Idle;
         }
     }
 
+    bool CanAttack()
+    {
+        return Time.time >= lastAttackTime + attackCoooldown;
+    }
+
+
+    void SetUPIdleAnimation()
+    {
+        switch (weaponType)
+        {
+            case WeaponType.Knife:
+                animationController.Idle(1);
+                break;
+            case WeaponType.Pistol:
+                animationController.Idle(0);
+                break;
+            case WeaponType.AK:
+                animationController.Idle(2);
+                break;
+            case WeaponType.Shotgun:
+                animationController.Idle(3);
+                break;
+        }
+    }
     public void Idle()
     {
         animationController.Move(0.5f);
     }
 
-
-    public void Patrol()
-    {
-        Vector2 newPos = Vector2.MoveTowards(rg.position, target, moveSpeed * Time.deltaTime);
-        Vector2 direction = target - (Vector2)rg.position;
-        rg.MovePosition(newPos);
-        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-        transform.rotation = Quaternion.Euler(0, 0, angle);
-        if (Vector2.Distance(rg.position, target) < 0.1f)
-        {
-            target = (target == location_1) ? location_2 : location_1;
-        }
-        animationController.Move(speed);
-    }
     public void Chase()
     {
-        Vector2 direction = (player.position - transform.position).normalized;
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, direction, avoidDistance, obstacleLayer);
-        if (hit.collider != null)
-        {
-            direction = Vector2.Perpendicular(direction);
-        }
-        Vector2 newPos;
+        if (player == null) return;
+
+        Vector2 toPlayer = player.position - transform.position;
+        float distance = toPlayer.magnitude;
+        Vector2 direction = toPlayer.normalized;
+
+        Vector2 moveDir = Vector2.zero;
+
         if (weaponType == WeaponType.Knife)
         {
-            newPos = rg.position + direction * moveSpeedKnife * Time.deltaTime;
+            moveDir = direction;
         }
         else
         {
-            newPos = rg.position + direction * moveSpeed * Time.deltaTime;
+            float buffer = 0.2f;
+            if (distance > keepDistance + buffer)
+            {
+                moveDir = direction;
+            }
+            else if (distance < keepDistance - buffer)
+            {
+                moveDir = -direction;
+            }
+            else
+            {
+                moveDir = Vector2.zero;
+            }
         }
 
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, moveDir, avoidDistance, obstacleLayer);
+        if (hit.collider != null)
+        {
+            moveDir = Vector2.Perpendicular(moveDir);
+        }
+
+        float speed = (weaponType == WeaponType.Knife) ? moveSpeedKnife : moveSpeed;
+        Vector2 newPos = rg.position + moveDir * speed * Time.deltaTime;
         rg.MovePosition(newPos);
-        //xoay
+        //xoay veef mat player
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
         transform.rotation = Quaternion.Euler(0, 0, angle);
     }
