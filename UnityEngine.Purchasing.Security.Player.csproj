@@ -9,10 +9,10 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{35A4A769-6448-1376-38FA-9F66C06A7A67}</ProjectGuid>
+    <ProjectGuid>{CDF90937-2920-3A74-FC9F-223745A0AAB1}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <AssemblyName>UnityEngine.Purchasing.WinRTStub</AssemblyName>
+    <AssemblyName>UnityEngine.Purchasing.Security</AssemblyName>
     <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <BaseDirectory>.</BaseDirectory>
@@ -56,11 +56,27 @@
     <Analyzer Include="C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\Extensions\Microsoft\Visual Studio Tools for Unity\Analyzers\Microsoft.Unity.Analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Library\PackageCache\com.unity.purchasing@4.5.2\Runtime\WinRTStub\Factory.cs" />
-    <Compile Include="Library\PackageCache\com.unity.purchasing@4.5.2\Runtime\WinRTStub\AssemblyInfo.cs" />
+    <Compile Include="Library\PackageCache\com.unity.purchasing@4.5.2\Runtime\Security\GooglePlayValidator.cs" />
+    <Compile Include="Library\PackageCache\com.unity.purchasing@4.5.2\Runtime\Security\Asn1Processor\Util.cs" />
+    <Compile Include="Library\PackageCache\com.unity.purchasing@4.5.2\Runtime\Security\GooglePlayReceipt.cs" />
+    <Compile Include="Library\PackageCache\com.unity.purchasing@4.5.2\Runtime\Security\Asn1Processor\Oid.cs" />
+    <Compile Include="Library\PackageCache\com.unity.purchasing@4.5.2\Runtime\Security\Asn1Processor\RelativeOid.cs" />
+    <Compile Include="Library\PackageCache\com.unity.purchasing@4.5.2\Runtime\Security\Asn1Processor\Asn1Util.cs" />
+    <Compile Include="Library\PackageCache\com.unity.purchasing@4.5.2\Runtime\Security\Certificate.cs" />
+    <Compile Include="Library\PackageCache\com.unity.purchasing@4.5.2\Runtime\Security\Asn1Processor\Asn1Node.cs" />
+    <Compile Include="Library\PackageCache\com.unity.purchasing@4.5.2\Runtime\Security\AssemblyInfo.cs" />
+    <Compile Include="Library\PackageCache\com.unity.purchasing@4.5.2\Runtime\Security\Asn1Processor\IAsn1Node.cs" />
+    <Compile Include="Library\PackageCache\com.unity.purchasing@4.5.2\Runtime\Security\Asn1Processor\Asn1EndOfIndefiniteLengthNodeType.cs" />
+    <Compile Include="Library\PackageCache\com.unity.purchasing@4.5.2\Runtime\Security\Obfuscator.cs" />
+    <Compile Include="Library\PackageCache\com.unity.purchasing@4.5.2\Runtime\Security\AppleValidator.cs" />
+    <Compile Include="Library\PackageCache\com.unity.purchasing@4.5.2\Runtime\Security\Asn1Processor\Asn1Tag.cs" />
+    <Compile Include="Library\PackageCache\com.unity.purchasing@4.5.2\Runtime\Security\CrossPlatformValidator.cs" />
+    <Compile Include="Library\PackageCache\com.unity.purchasing@4.5.2\Runtime\Security\Asn1Processor\Asn1Parser.cs" />
+    <Compile Include="Library\PackageCache\com.unity.purchasing@4.5.2\Runtime\Security\PKCS7.cs" />
+    <Compile Include="Library\PackageCache\com.unity.purchasing@4.5.2\Runtime\Security\RSAPubKey.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Library\PackageCache\com.unity.purchasing@4.5.2\Runtime\WinRTStub\UnityEngine.Purchasing.WinRTStub.asmdef" />
+    <None Include="Library\PackageCache\com.unity.purchasing@4.5.2\Runtime\Security\UnityEngine.Purchasing.Security.asmdef" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
@@ -605,9 +621,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="UnityEngine.Purchasing.WinRTCore.Player.csproj">
-      <Project>{1BD541BD-A102-C793-03D5-E0C57B718FBC}</Project>
-      <Name>UnityEngine.Purchasing.WinRTCore.Player</Name>
+    <ProjectReference Include="Purchasing.Common.Player.csproj">
+      <Project>{C42CDD6E-93A5-0ED9-4AA2-0F3522D317D4}</Project>
+      <Name>Purchasing.Common.Player</Name>
+    </ProjectReference>
+    <ProjectReference Include="UnityEngine.Purchasing.SecurityCore.Player.csproj">
+      <Project>{11CC17C6-3B15-18F8-FA47-0DF960E81F35}</Project>
+      <Name>UnityEngine.Purchasing.SecurityCore.Player</Name>
     </ProjectReference>
     <ProjectReference Include="UnityEngine.UI.Player.csproj">
       <Project>{0848C866-FD04-6A22-AD34-19151D5DDAFF}</Project>

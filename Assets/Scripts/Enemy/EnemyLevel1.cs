@@ -15,9 +15,9 @@ public class EnemyLevel1 : MonoBehaviour, IEnemy
 
     public enum WeaponType
     {
+        AK,
         Knife,
         Pistol,
-        AK,
         Shotgun
     }
 
@@ -25,7 +25,6 @@ public class EnemyLevel1 : MonoBehaviour, IEnemy
     public WeaponType weaponType;
 
     public Transform player;
-    public BoxCollider2D knifeCollider;
     private AnimationController animationController;
     private Rigidbody2D rg;
 
@@ -56,24 +55,20 @@ public class EnemyLevel1 : MonoBehaviour, IEnemy
     [SerializeField]
     float keepDistance = 3f;
 
+    public AttackPointDamage attackPointDamage;
+
     void Awake()
     {
         animationController = GetComponent<AnimationController>();
         rg = GetComponent<Rigidbody2D>();
         enemyLevel1Attack = GetComponent<EnemyLevel1Attack>();
+        SetUPIdleAnimation();
     }
 
     void Start()
     {
         currentState = EmenyState.Idle;
-
         gameObject.transform.position = location;
-
-        if (knifeCollider != null)
-            knifeCollider.enabled = (weaponType == WeaponType.Knife);
-
-        SetUPIdleAnimation();
-
     }
 
     void Update()
@@ -116,7 +111,6 @@ public class EnemyLevel1 : MonoBehaviour, IEnemy
                 else if (distance > 1f && weaponType == WeaponType.Knife)
                 {
                     currentState = EmenyState.Chase;
-                    //animationController.PlayerAttack();
                 }
                 else
                 {
@@ -131,7 +125,6 @@ public class EnemyLevel1 : MonoBehaviour, IEnemy
             }
             else
             {
-                //animationController.PlayerAttack();
                 currentState = EmenyState.Chase;
             }
         }
@@ -147,7 +140,7 @@ public class EnemyLevel1 : MonoBehaviour, IEnemy
     }
 
 
-    void SetUPIdleAnimation()
+    public void SetUPIdleAnimation()
     {
         switch (weaponType)
         {
@@ -180,7 +173,10 @@ public class EnemyLevel1 : MonoBehaviour, IEnemy
 
         Vector2 moveDir = Vector2.zero;
 
-        if (weaponType == WeaponType.Knife)
+        WeaponManager playerWeapon = player.GetComponent<WeaponManager>();
+        bool playerUseKnife = playerWeapon != null && playerWeapon.weaponType == WeaponManager.WeaponType.Knife;
+
+        if (weaponType == WeaponType.Knife || playerUseKnife)
         {
             moveDir = direction;
         }
@@ -214,16 +210,20 @@ public class EnemyLevel1 : MonoBehaviour, IEnemy
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
         transform.rotation = Quaternion.Euler(0, 0, angle);
     }
-    public void Hurt() { }
+    public void Hurt()
+    {
+        Invoke(nameof(RecoverFromHurt), 0.3f);
+    }
 
+    void RecoverFromHurt()
+    {
+        currentState = EmenyState.Chase;
+    }
 
     void Attack()
     {
         switch (weaponType)
         {
-            //case WeaponType.Knife:
-            //    enemyLevel1Attack.KnifeAttack();
-            //    break;
             case WeaponType.Pistol:
                 enemyLevel1Attack.HandGunAttack();
                 break;
@@ -234,7 +234,22 @@ public class EnemyLevel1 : MonoBehaviour, IEnemy
                 enemyLevel1Attack.ShotGunAttack();
                 break;
         }
-
     }
-    public void Dead() { }
+
+    public void StartAttackKnife()
+    {
+        attackPointDamage.StartAttack();
+    }
+
+    public void EndAttackKnife()
+    {
+        attackPointDamage.EndAttackKnife();
+    }
+    public void Dead() {
+        currentState = EmenyState.Dead;
+        rg.velocity = Vector2.zero;
+        enemyLevel1Attack.isDeal = true;
+        CancelInvoke();
+        StopAllCoroutines();
+    }
 }

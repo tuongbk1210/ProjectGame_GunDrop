@@ -17,8 +17,6 @@ public class EnemyLevel1Attack : MonoBehaviour
     public int damageAk = 20;
     public int damageHandShot = 30;
 
-    private bool checkKnifeAttack = false;
-
     [Header("AudioClip")]
     [SerializeField]
     AudioClip audioClipKnifeAttack;
@@ -44,48 +42,61 @@ public class EnemyLevel1Attack : MonoBehaviour
     [SerializeField]
     float bulletSpeed = 10f;
 
+    private EnemyLevel1 enemy;
+    public bool isDeal = false;
+
     void Start()
     {
+        enemy = GetComponent<EnemyLevel1>();
         animationController = GetComponent<AnimationController>();
         soundController = GetComponent<SoundController>();
-        //playerHealth = GetComponent<PlayerHealth>();
     }
     public void KnifeAttack()
     {
-        animationController.PlayerAttack();
-        checkKnifeAttack = true;
-        soundController.PlayAudio(audioClipKnifeAttack);
+        if (!isDeal)
+        {
+            animationController.PlayerAttack();
+            //checkKnifeAttack = true;
+            soundController.PlayAudio(audioClipKnifeAttack);
+        }
     }
     public void HandGunAttack()
     {
-        FireBullet();
-        float distance = Vector3.Distance(player.position, gameObject.transform.position);
-        if(playerHealth != null)
+        if (!isDeal)
         {
-            if (distance <= detectAttack && distance > detectHandGunAttack)
+            FireBullet();
+            float distance = Vector3.Distance(player.position, gameObject.transform.position);
+            if (playerHealth != null)
             {
-                playerHealth.TakeDamage(danmageHandGonNormal);
+                if (distance <= detectAttack && distance > detectHandGunAttack)
+                {
+                    playerHealth.TakeDamage(danmageHandGonNormal);
+                }
+                else if (distance <= detectHandGunAttack)
+                {
+                    playerHealth.TakeDamage(damageHandGon);
+                }
             }
-            else if (distance <= detectHandGunAttack)
-            {
-                playerHealth.TakeDamage(damageHandGon);
-            }
+            soundController.PlayAudio(audioClipHandGonAttack);
         }
-        soundController.PlayAudio(audioClipHandGonAttack);
     }
 
     public void AKAttack()
     {
-        FireBullet();
-        //playerHealth.TakeDamage(damageAk);
-        soundController.PlayAudio(audioClipAkAttack);
+        if (!isDeal)
+        {
+            FireBullet();
+            soundController.PlayAudio(audioClipAkAttack);
+        }
     }
 
     public void ShotGunAttack()
     {
-        FireBullet();
-        //playerHealth.TakeDamage(damageHandShot);
-        soundController.PlayAudio(audioClipHandshotAttack);
+        if (!isDeal)
+        {
+            FireBullet();
+            soundController.PlayAudio(audioClipHandshotAttack);
+        }
     }
 
     public void FireBullet()
@@ -93,14 +104,7 @@ public class EnemyLevel1Attack : MonoBehaviour
         GameObject bullet = Instantiate(bulletPrefab, gunPoint.position, gunPoint.rotation);
         Rigidbody2D rb = bullet.GetComponent<Rigidbody2D>();
         rb.velocity = gunPoint.right * bulletSpeed;
-    }
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-
-        if (collision.CompareTag("Player") && checkKnifeAttack)
-        {
-            collision.GetComponent<PlayerHealth>().TakeDamage(damageKnife);
-        }
+        ManagerBullet mb = bullet.GetComponent<ManagerBullet>();
+        mb.weaponTypeEnemy = enemy.weaponType;
     }
 }

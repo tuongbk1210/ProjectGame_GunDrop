@@ -16,6 +16,9 @@ public class PlayerMovement : MonoBehaviour
     float speed = 1.5f;
 
     WeaponManager weaponManager;
+
+    public AttackPointDamage attackPointDamage;
+
     void Start()
     {
         animationController = GetComponent<AnimationController>();
@@ -47,4 +50,15 @@ public class PlayerMovement : MonoBehaviour
         }
         rb.velocity = movement.normalized * currentSpeed;
     }
+
+    public void StartAttackKnife()
+    {
+        attackPointDamage.StartAttack();
+    }
+
+    public void EndAttackKnife()
+    {
+        attackPointDamage.EndAttackKnife();
+    }
 }
+

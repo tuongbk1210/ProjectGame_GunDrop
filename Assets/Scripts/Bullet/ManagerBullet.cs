@@ -18,12 +18,12 @@ public class ManagerBullet : MonoBehaviour
     [SerializeField]
     AudioClip impactWall;
     SoundController soundController;
-    //public string ownerTag;
 
     Vector2 startPosition;
     public float maxDistance = 8f;
 
     public WeaponManager.WeaponType weaponType;
+    public EnemyLevel1.WeaponType weaponTypeEnemy;
 
     private void Start()
     {
@@ -32,8 +32,6 @@ public class ManagerBullet : MonoBehaviour
         rb.velocity = transform.right * speed;
         transform.rotation = Quaternion.LookRotation(Vector3.forward, rb.velocity);
         soundController = FindObjectOfType<SoundController>();
-
-
     }
 
     private void Update()
@@ -59,9 +57,32 @@ public class ManagerBullet : MonoBehaviour
                 }
             case WeaponManager.WeaponType.Shotgun:
                 return damageHandShot;
+
         }
         return 0;
     }
+
+    int GetDamageEnemy()
+    {
+        float distance = Vector2.Distance(startPosition, transform.position);
+       
+        switch (weaponTypeEnemy)
+        {
+            case EnemyLevel1.WeaponType.Pistol:
+                if (distance <= 4f)
+                    return damageHandGun;
+                else
+                {
+                    return danmageHandGonNormal;
+                }
+            case EnemyLevel1.WeaponType.Shotgun:
+                return damageHandShot;
+            case EnemyLevel1.WeaponType.AK:
+                return damageAk;
+        }
+        return 0;
+    }
+
 
     public void SetLayer(SpriteRenderer owner)
     {
@@ -72,25 +93,27 @@ public class ManagerBullet : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        //if (collision.CompareTag(ownerTag))
-
-        //    return;
 
         if (collision.CompareTag("Player"))
         {
-            HealthbarEnemy enemy = collision.GetComponent<HealthbarEnemy>();
-            if (enemy != null)
+            PlayerHealth player = collision.GetComponent<PlayerHealth>();
+            if (player != null)
             {
-                enemy.TakeDamage(GetDamage());
+                player.TakeDamage(GetDamageEnemy());
             }
             Destroy(gameObject);
         }
         if (collision.CompareTag("Enemies"))
         {
-            PlayerHealth player = collision.GetComponent<PlayerHealth>();
-            if (player != null)
+            EnemyLevel1 enemyLevel1 = collision.GetComponent<EnemyLevel1>();
+            if(enemyLevel1 != null)
             {
-                player.TakeDamage(GetDamage());
+                enemyLevel1.Hurt();
+            }
+            HealthbarEnemy enemy = collision.GetComponent<HealthbarEnemy>();
+            if (enemy != null)
+            {
+                enemy.TakeDamage(GetDamage());
             }
             Destroy(gameObject);
         }

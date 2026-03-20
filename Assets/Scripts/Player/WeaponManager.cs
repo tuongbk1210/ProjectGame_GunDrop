@@ -43,9 +43,6 @@ public class WeaponManager : MonoBehaviour
     public WeaponType weaponType;
     private WeaponType checkWeaponType;
 
-    [SerializeField]
-    GameObject attackPointKnife;
-
     bool canAttack = true;
 
     [Header("Ammo")]
@@ -110,7 +107,6 @@ public class WeaponManager : MonoBehaviour
             {
                 pistoAmmo = maxAmmo;
             }
-
         }
     }
 
@@ -228,20 +224,10 @@ public class WeaponManager : MonoBehaviour
     public void KnifeAttack()
     {
         soundController.PlayAudio(attackKnife);
-        if (attackPointKnife != null)
-        {
-            attackPointKnife.SetActive(true);
-            Invoke("DisableAttack", knifeHitTime);
-        }
     }
-
-    public void DisableAttack()
-    {
-        attackPointKnife.SetActive(false);
-    }
-
     public void EndAttack()
     {
         canAttack = true;
     }
+
 }
