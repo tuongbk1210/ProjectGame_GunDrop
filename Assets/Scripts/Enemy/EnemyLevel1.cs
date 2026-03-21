@@ -62,13 +62,13 @@ public class EnemyLevel1 : MonoBehaviour, IEnemy
         animationController = GetComponent<AnimationController>();
         rg = GetComponent<Rigidbody2D>();
         enemyLevel1Attack = GetComponent<EnemyLevel1Attack>();
-        SetUPIdleAnimation();
     }
 
     void Start()
     {
         currentState = EmenyState.Idle;
         gameObject.transform.position = location;
+        SetUPIdleAnimation();
     }
 
     void Update()

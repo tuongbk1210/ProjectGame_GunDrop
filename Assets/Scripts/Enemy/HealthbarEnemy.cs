@@ -19,6 +19,9 @@ public class HealthbarEnemy : MonoBehaviour
     [SerializeField]
     GameObject healthbarEnemy;
     EnemyLevel1 enemyLevel1;
+    bool isEnemyDie = false;
+
+    public Score score;
 
     private void Start()
     {
@@ -33,13 +36,15 @@ public class HealthbarEnemy : MonoBehaviour
     public void TakeDamage(int damage)
     {
         currentHealth -= damage;
-        if (currentHealth <= 0)
+        if (currentHealth <= 0 && !isEnemyDie)
         {
+            isEnemyDie = true;
             currentHealth = 0;
             animationController.Move(0.5f);
             animationController.Dead();
             soundController.PlayAudio(enemyDie);
             healthbarEnemy.SetActive(false);
+            score.addScore(10);
             Destroy(gameObject, 3f);
             enemyLevel1.Dead();
         }
