@@ -5,26 +5,11 @@ using UnityEngine;
 public class EnemyLevel1 : MonoBehaviour, IEnemy
 
 {
-    public enum EmenyState
-    {
-        Idle, // đứng yên
-        Chase, // phát hiện
-        Hurt, // đau 
-        Dead // chết
-    }
-
-    public enum WeaponType
-    {
-        AK,
-        Knife,
-        Pistol,
-        Shotgun
-    }
-
     public EmenyState currentState;
     public WeaponType weaponType;
+    public MapLevel mapLevel;
 
-    public Transform player;
+    Transform player;
     private AnimationController animationController;
     private Rigidbody2D rg;
 
@@ -47,7 +32,6 @@ public class EnemyLevel1 : MonoBehaviour, IEnemy
 
     [Header("Patrol")]
     [SerializeField]
-    Vector3 location = new Vector3(0, 15, 0);
 
     public float attackCoooldown = 3f;
     private float lastAttackTime;
@@ -67,8 +51,9 @@ public class EnemyLevel1 : MonoBehaviour, IEnemy
     void Start()
     {
         currentState = EmenyState.Idle;
-        gameObject.transform.position = location;
         SetUPIdleAnimation();
+        player = GameObject.FindGameObjectWithTag("Player").transform;
+        ApplyMapLevel();
     }
 
     void Update()
@@ -147,7 +132,7 @@ public class EnemyLevel1 : MonoBehaviour, IEnemy
             case WeaponType.Knife:
                 animationController.Idle(1);
                 break;
-            case WeaponType.Pistol:
+            case WeaponType.Handgun:
                 animationController.Idle(0);
                 break;
             case WeaponType.AK:
@@ -224,7 +209,7 @@ public class EnemyLevel1 : MonoBehaviour, IEnemy
     {
         switch (weaponType)
         {
-            case WeaponType.Pistol:
+            case WeaponType.Handgun:
                 enemyLevel1Attack.HandGunAttack();
                 break;
             case WeaponType.AK:
@@ -249,7 +234,45 @@ public class EnemyLevel1 : MonoBehaviour, IEnemy
         currentState = EmenyState.Dead;
         rg.velocity = Vector2.zero;
         enemyLevel1Attack.isDeal = true;
+        Collider2D col = GetComponent<Collider2D>();
+        if(col != null)
+        {
+            col.enabled = false;
+        }
+        rg.isKinematic = true;
         CancelInvoke();
         StopAllCoroutines();
+    }
+
+    void ApplyMapLevel()
+    {
+        string layerName = "";
+
+        switch (mapLevel)
+        {
+            case MapLevel.Level1:
+                layerName = "Layer 1";
+                break;
+            case MapLevel.Level2:
+                layerName = "Layer 2";
+                break;
+            case MapLevel.Level3:
+                layerName = "Layer 3";
+                break;
+        }
+
+        int layerIndex = LayerMask.NameToLayer(layerName);
+        if(layerIndex == -1)
+        {
+            Debug.Log("Layer không tồn tại" + layerName);
+            return;
+        }
+        gameObject.layer = layerIndex;
+
+        SpriteRenderer sr = GetComponent<SpriteRenderer>();
+        if(sr != null)
+        {
+            sr.sortingLayerName = layerName;
+        }
     }
 }

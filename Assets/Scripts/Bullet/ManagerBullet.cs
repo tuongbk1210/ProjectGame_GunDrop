@@ -23,7 +23,7 @@ public class ManagerBullet : MonoBehaviour
     public float maxDistance = 8f;
 
     public WeaponManager.WeaponType weaponType;
-    public EnemyLevel1.WeaponType weaponTypeEnemy;
+    public WeaponType weaponTypeEnemy;
 
     private void Start()
     {
@@ -68,16 +68,16 @@ public class ManagerBullet : MonoBehaviour
        
         switch (weaponTypeEnemy)
         {
-            case EnemyLevel1.WeaponType.Pistol:
+            case WeaponType.Handgun:
                 if (distance <= 4f)
                     return damageHandGun;
                 else
                 {
                     return danmageHandGonNormal;
                 }
-            case EnemyLevel1.WeaponType.Shotgun:
+            case WeaponType.Shotgun:
                 return damageHandShot;
-            case EnemyLevel1.WeaponType.AK:
+            case WeaponType.AK:
                 return damageAk;
         }
         return 0;
@@ -86,17 +86,18 @@ public class ManagerBullet : MonoBehaviour
 
     public void SetLayer(SpriteRenderer owner)
     {
-        SpriteRenderer sr = GetComponent<SpriteRenderer>(); 
+        SpriteRenderer sr = GetComponent<SpriteRenderer>();
         sr.sortingLayerID = owner.sortingLayerID;
         sr.sortingOrder = owner.sortingOrder;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        PlayerHealth player = collision.GetComponent<PlayerHealth>();
+        EnemyLevel1 enemyLevel1 = collision.GetComponent<EnemyLevel1>();
 
         if (collision.CompareTag("Player"))
         {
-            PlayerHealth player = collision.GetComponent<PlayerHealth>();
             if (player != null)
             {
                 player.TakeDamage(GetDamageEnemy());
@@ -105,8 +106,7 @@ public class ManagerBullet : MonoBehaviour
         }
         if (collision.CompareTag("Enemies"))
         {
-            EnemyLevel1 enemyLevel1 = collision.GetComponent<EnemyLevel1>();
-            if(enemyLevel1 != null)
+            if (enemyLevel1 != null)
             {
                 enemyLevel1.Hurt();
             }

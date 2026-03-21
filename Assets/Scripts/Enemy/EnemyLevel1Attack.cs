@@ -7,7 +7,6 @@ public class EnemyLevel1Attack : MonoBehaviour
     private AnimationController animationController;
     private SoundController soundController;
 
-    [SerializeField]
     Transform player;
 
     [Header("Damage")]
@@ -50,6 +49,7 @@ public class EnemyLevel1Attack : MonoBehaviour
         enemy = GetComponent<EnemyLevel1>();
         animationController = GetComponent<AnimationController>();
         soundController = GetComponent<SoundController>();
+        player = GameObject.FindGameObjectWithTag("Player").transform;
     }
     public void KnifeAttack()
     {

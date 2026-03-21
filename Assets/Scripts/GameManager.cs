@@ -1,21 +1,38 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class GameManager : MonoBehaviour
 {
-    [SerializeField]
-    AudioClip bgMusic;
+    public static GameManager instance;
 
-    SoundController soudController;
-    void Start()
+    public TextMeshProUGUI valuetext;
+    private int score = 0;
+
+    private void Awake()
     {
-        soudController = GetComponent<SoundController>();
-        soudController.PlayMusic(bgMusic);
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
     }
 
-    void Update()
+    public void AddScore(int value)
     {
-        
+        score += value;
+        UpdateScoreUI();
+    }
+
+    void UpdateScoreUI()
+    {
+        if (valuetext != null)
+        {
+            valuetext.text = score.ToString();
+        }
     }
 }

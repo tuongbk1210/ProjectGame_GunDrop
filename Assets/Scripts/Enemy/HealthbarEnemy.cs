@@ -21,8 +21,6 @@ public class HealthbarEnemy : MonoBehaviour
     EnemyLevel1 enemyLevel1;
     bool isEnemyDie = false;
 
-    public Score score;
-
     private void Start()
     {
         currentHealth = maxHealth;
@@ -44,7 +42,7 @@ public class HealthbarEnemy : MonoBehaviour
             animationController.Dead();
             soundController.PlayAudio(enemyDie);
             healthbarEnemy.SetActive(false);
-            score.addScore(10);
+            GameManager.instance.AddScore(10);
             Destroy(gameObject, 3f);
             enemyLevel1.Dead();
         }

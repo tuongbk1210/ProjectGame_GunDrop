@@ -88,6 +88,8 @@
     <Compile Include="Assets\Scripts\CameraFollow.cs" />
     <Compile Include="Assets\Scripts\Enemy\EnemyLevel1.cs" />
     <Compile Include="Assets\Scripts\Player\WeaponManager.cs" />
+    <Compile Include="Assets\Scripts\WaveManager.cs" />
+    <Compile Include="Assets\Scripts\GameEnum.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
