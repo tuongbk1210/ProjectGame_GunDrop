@@ -8,6 +8,10 @@ public class AttackPointDamage : MonoBehaviour
     private bool isAttacking = false;
     private bool hasHit = false;
 
+    SpriteRenderer sr;
+    Transform parentTransform;
+    SpriteRenderer parentSR;
+
     public void StartAttack()
     {
         isAttacking = true;
@@ -18,6 +22,25 @@ public class AttackPointDamage : MonoBehaviour
     public void EndAttackKnife()
     {
         isAttacking = false;
+    }
+
+    public void Awake()
+    {
+        sr = GetComponent<SpriteRenderer>();
+        parentTransform = transform.root;
+        parentSR = parentTransform.GetComponent<SpriteRenderer>();
+        SyncWithParent();
+    }
+
+    private void SyncWithParent()
+    {
+        if (parentTransform == null) return;
+        gameObject.layer = parentTransform.gameObject.layer;
+        if (sr != null && parentSR != null)
+        {
+            sr.sortingLayerID = parentSR.sortingLayerID;
+            sr.sortingOrder = parentSR.sortingOrder + 1;
+        }
     }
 
     private void OnTriggerStay2D(Collider2D other)

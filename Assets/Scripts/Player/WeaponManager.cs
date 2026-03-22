@@ -208,6 +208,7 @@ public class WeaponManager : MonoBehaviour
         soundController.PlayAudio(attackHandGun);
         GameObject bullet = Instantiate(bulletPrefab, gunPoint.transform.position, gunPoint.transform.rotation);
         ManagerBullet bulletScript = bullet.GetComponent<ManagerBullet>();
+        bullet.layer = gameObject.layer;
         SpriteRenderer playerSR = GetComponent<SpriteRenderer>();
         bulletScript.weaponType = weaponType;
         bulletScript.SetLayer(playerSR);
@@ -217,6 +218,7 @@ public class WeaponManager : MonoBehaviour
         soundController.PlayAudio(attackShotGun);
         GameObject bullet = Instantiate(bulletPrefab, shotGunPoint.transform.position, shotGunPoint.transform.rotation);
         ManagerBullet bulletScript = bullet.GetComponent<ManagerBullet>();
+        bullet.layer = gameObject.layer;
         SpriteRenderer playerSR = GetComponent<SpriteRenderer>();
         bulletScript.weaponType = weaponType;
         bulletScript.SetLayer(playerSR);

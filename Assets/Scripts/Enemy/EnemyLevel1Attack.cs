@@ -102,6 +102,13 @@ public class EnemyLevel1Attack : MonoBehaviour
     public void FireBullet()
     {
         GameObject bullet = Instantiate(bulletPrefab, gunPoint.position, gunPoint.rotation);
+        bullet.layer = gameObject.layer;
+        SpriteRenderer sr = bullet.GetComponent<SpriteRenderer>();
+        SpriteRenderer ownerSr = GetComponent<SpriteRenderer>(); 
+        if(sr != null && ownerSr != null){
+            sr.sortingLayerID = ownerSr.sortingLayerID;
+            sr.sortingOrder = ownerSr.sortingOrder;
+        }
         Rigidbody2D rb = bullet.GetComponent<Rigidbody2D>();
         rb.velocity = gunPoint.right * bulletSpeed;
         ManagerBullet mb = bullet.GetComponent<ManagerBullet>();
