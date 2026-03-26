@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    private AnimationController animationController;
-    private Rigidbody2D rb;
-    private Vector2 movement;
+    AnimationController animationController;
+    Rigidbody2D rb;
+    Vector2 movement;
 
     [SerializeField]
     Joystick joystick;
