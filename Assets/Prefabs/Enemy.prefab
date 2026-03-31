@@ -617,6 +617,8 @@ MonoBehaviour:
   gunPoint: {fileID: 2136738271388093483}
   bulletSpeed: 10
   isDeal: 0
+  muzzlePrefab: {fileID: 5823756509664159345, guid: 2e37d3c7062d59544ab5214929e6ca0f,
+    type: 3}
 --- !u!114 &2136738272136004002
 MonoBehaviour:
   m_ObjectHideFlags: 0

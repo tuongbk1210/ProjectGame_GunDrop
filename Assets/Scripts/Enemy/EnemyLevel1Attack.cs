@@ -44,6 +44,9 @@ public class EnemyLevel1Attack : MonoBehaviour
     private EnemyLevel1 enemy;
     public bool isDeal = false;
 
+    [SerializeField]
+    GameObject muzzlePrefab;
+
     void Start()
     {
         enemy = GetComponent<EnemyLevel1>();
@@ -101,13 +104,22 @@ public class EnemyLevel1Attack : MonoBehaviour
 
     public void FireBullet()
     {
+        GameObject vfx = Instantiate(muzzlePrefab, gunPoint.transform.position, gunPoint.transform.rotation);
         GameObject bullet = Instantiate(bulletPrefab, gunPoint.position, gunPoint.rotation);
         bullet.layer = gameObject.layer;
+        vfx.layer = gameObject.layer;
         SpriteRenderer sr = bullet.GetComponent<SpriteRenderer>();
-        SpriteRenderer ownerSr = GetComponent<SpriteRenderer>(); 
-        if(sr != null && ownerSr != null){
+        SpriteRenderer vfxSr = vfx.GetComponent<SpriteRenderer>();
+        SpriteRenderer ownerSr = GetComponent<SpriteRenderer>();
+        if (sr != null && ownerSr != null)
+        {
             sr.sortingLayerID = ownerSr.sortingLayerID;
             sr.sortingOrder = ownerSr.sortingOrder;
+        }
+        if (sr != null && ownerSr != null)
+        {
+            vfxSr.sortingLayerID = ownerSr.sortingLayerID;
+            vfxSr.sortingOrder = ownerSr.sortingOrder;
         }
         Rigidbody2D rb = bullet.GetComponent<Rigidbody2D>();
         rb.velocity = gunPoint.right * bulletSpeed;

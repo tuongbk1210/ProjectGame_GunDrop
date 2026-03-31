@@ -234,7 +234,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -101.1, y: 283}
+  m_AnchoredPosition: {x: -101.1001, y: 283}
   m_SizeDelta: {x: 140, y: 140}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &13315955
@@ -4205,6 +4205,8 @@ MonoBehaviour:
     type: 3}
   gunPoint: {fileID: 1147254019}
   shotGunPoint: {fileID: 1020227163}
+  muzzlePrefab: {fileID: 5823756509664159345, guid: 2e37d3c7062d59544ab5214929e6ca0f,
+    type: 3}
   attackCooldown: 0.5
   knifeHitTime: 0.2
   weaponType: 0

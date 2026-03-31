@@ -29,6 +29,8 @@ public class WeaponManager : MonoBehaviour
     GameObject gunPoint;
     [SerializeField]
     GameObject shotGunPoint;
+    [SerializeField]
+    GameObject muzzlePrefab;
 
     public float attackCooldown = 0.4f;
     public float knifeHitTime = 0.2f;
@@ -202,26 +204,33 @@ public class WeaponManager : MonoBehaviour
                 break;
         }
     }
-
     public void HandGunAttack()
     {
         soundController.PlayAudio(attackHandGun);
+        GameObject vfx = Instantiate(muzzlePrefab, gunPoint.transform.position, gunPoint.transform.rotation);
+        vfx.layer = gameObject.layer;
         GameObject bullet = Instantiate(bulletPrefab, gunPoint.transform.position, gunPoint.transform.rotation);
         ManagerBullet bulletScript = bullet.GetComponent<ManagerBullet>();
+        AnimatedTexture vfxScript = vfx.GetComponent<AnimatedTexture>();
         bullet.layer = gameObject.layer;
         SpriteRenderer playerSR = GetComponent<SpriteRenderer>();
         bulletScript.weaponType = weaponType;
         bulletScript.SetLayer(playerSR);
+        vfxScript.SetLayer(playerSR);
     }
     public void ShotGunAttack()
     {
         soundController.PlayAudio(attackShotGun);
+        GameObject vfx = Instantiate(muzzlePrefab, shotGunPoint.transform.position, shotGunPoint.transform.rotation);
+        vfx.layer = gameObject.layer;
         GameObject bullet = Instantiate(bulletPrefab, shotGunPoint.transform.position, shotGunPoint.transform.rotation);
         ManagerBullet bulletScript = bullet.GetComponent<ManagerBullet>();
+        AnimatedTexture vfxScript = vfx.GetComponent<AnimatedTexture>();
         bullet.layer = gameObject.layer;
         SpriteRenderer playerSR = GetComponent<SpriteRenderer>();
         bulletScript.weaponType = weaponType;
         bulletScript.SetLayer(playerSR);
+        vfxScript.SetLayer(playerSR);
     }
     public void KnifeAttack()
     {
