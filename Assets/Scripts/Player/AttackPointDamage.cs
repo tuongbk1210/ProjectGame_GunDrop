@@ -10,7 +10,7 @@ public class AttackPointDamage : MonoBehaviour
 
     SpriteRenderer sr;
     Transform parentTransform;
-    SpriteRenderer parentSR;
+
 
     public void StartAttack()
     {
@@ -28,14 +28,21 @@ public class AttackPointDamage : MonoBehaviour
     {
         sr = GetComponent<SpriteRenderer>();
         parentTransform = transform.root;
-        parentSR = parentTransform.GetComponent<SpriteRenderer>();
+      
+    }
+
+    private void LateUpdate()
+    {
         SyncWithParent();
     }
 
     private void SyncWithParent()
     {
         if (parentTransform == null) return;
+
         gameObject.layer = parentTransform.gameObject.layer;
+
+        SpriteRenderer parentSR = parentTransform.GetComponent<SpriteRenderer>();
         if (sr != null && parentSR != null)
         {
             sr.sortingLayerID = parentSR.sortingLayerID;
@@ -55,6 +62,8 @@ public class AttackPointDamage : MonoBehaviour
         if (ownerTag == "Enemies" && other.CompareTag("Player"))
         {
             other.GetComponentInParent<PlayerHealth>()?.TakeDamage(damage);
+            var player = other.GetComponentInParent<PlayerHealth>();
+            player?.Showblood();
             hasHit = true;
         }
 
@@ -66,6 +75,8 @@ public class AttackPointDamage : MonoBehaviour
                 enemyLevel1.Hurt();
             }
             other.GetComponentInParent<HealthbarEnemy>()?.TakeDamage(damage);
+            var enemy = other.GetComponentInParent<HealthbarEnemy>();
+            enemy?.Showblood();
             hasHit = true;
         }
     }

@@ -111,6 +111,7 @@ public class EnemyLevel1Attack : MonoBehaviour
         SpriteRenderer sr = bullet.GetComponent<SpriteRenderer>();
         SpriteRenderer vfxSr = vfx.GetComponent<SpriteRenderer>();
         SpriteRenderer ownerSr = GetComponent<SpriteRenderer>();
+
         if (sr != null && ownerSr != null)
         {
             sr.sortingLayerID = ownerSr.sortingLayerID;

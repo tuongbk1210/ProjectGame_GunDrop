@@ -25,6 +25,9 @@ public class ManagerBullet : MonoBehaviour
     public WeaponManager.WeaponType weaponType;
     public WeaponType weaponTypeEnemy;
 
+    [SerializeField]
+    GameObject bloodVFX;
+
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -101,6 +104,10 @@ public class ManagerBullet : MonoBehaviour
             if (player != null)
             {
                 player.TakeDamage(GetDamageEnemy());
+                Vector2 hitPoint = collision.ClosestPoint(transform.position);
+                GameObject vfx = Instantiate(bloodVFX, hitPoint, Quaternion.identity);
+                SetSortingForVFX(vfx);
+                Destroy(vfx, 0.3f);
             }
             Destroy(gameObject);
         }
@@ -114,6 +121,10 @@ public class ManagerBullet : MonoBehaviour
             if (enemy != null)
             {
                 enemy.TakeDamage(GetDamage());
+                Vector2 hitPoint = collision.ClosestPoint(transform.position);
+                GameObject vfx = Instantiate(bloodVFX, hitPoint, Quaternion.identity);
+                SetSortingForVFX(vfx);
+                Destroy(vfx,0.3f);
             }
             Destroy(gameObject);
         }
@@ -124,6 +135,17 @@ public class ManagerBullet : MonoBehaviour
             rb.gravityScale = 1;
             Destroy(gameObject);
 
+        }
+    }
+
+    void SetSortingForVFX(GameObject vfx)
+    {
+        SpriteRenderer bulletSr = GetComponent<SpriteRenderer>();
+        Renderer[] renderers = vfx.GetComponentsInChildren<Renderer>();
+        foreach(Renderer r in renderers)
+        {
+            r.sortingLayerID = bulletSr.sortingLayerID;
+            r.sortingOrder = bulletSr.sortingOrder;
         }
     }
 }

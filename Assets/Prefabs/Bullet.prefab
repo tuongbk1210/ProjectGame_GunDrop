@@ -155,6 +155,8 @@ MonoBehaviour:
   impactWall: {fileID: 8300000, guid: 4d386948e8489854592685b0ddd8981f, type: 3}
   maxDistance: 8
   weaponType: 0
+  weaponTypeEnemy: 0
+  bloodVFX: {fileID: 363129994586184365, guid: c667261b7e419f146808ce90c1d17952, type: 3}
 --- !u!82 &1932568122
 AudioSource:
   m_ObjectHideFlags: 0

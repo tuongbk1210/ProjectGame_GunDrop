@@ -8,6 +8,7 @@ TagManager:
   - Bullet
   - Wall
   - Score
+  - Blood
   layers:
   - Default
   - TransparentFX

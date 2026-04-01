@@ -21,6 +21,8 @@ public class HealthbarEnemy : MonoBehaviour
     EnemyLevel1 enemyLevel1;
     bool isEnemyDie = false;
 
+    public GameObject bloodVfx;
+
     private void Start()
     {
         currentHealth = maxHealth;
@@ -48,4 +50,24 @@ public class HealthbarEnemy : MonoBehaviour
         }
         healthBar.UpdateBar(currentHealth, maxHealth);
     }
+
+    public void Showblood()
+    {
+        if (bloodVfx != null)
+        {
+            bloodVfx.SetActive(true);
+            StartCoroutine(DisableAfterTime(bloodVfx, 1f));
+        }
+    }
+
+    IEnumerator DisableAfterTime(GameObject obj, float time)
+    {
+        yield return new WaitForSeconds(time);
+        if (obj != null)
+        {
+            obj.SetActive(false);
+        }
+
+    }
+
 }

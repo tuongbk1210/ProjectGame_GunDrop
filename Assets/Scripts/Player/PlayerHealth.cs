@@ -20,6 +20,8 @@ public class PlayerHealth : MonoBehaviour
     [Header("UI")]
     public GameObject gameOverPanel;
 
+    public GameObject bloodVfx;
+
     public void Start()
     {
         currentHealth = maxHealth;
@@ -41,6 +43,7 @@ public class PlayerHealth : MonoBehaviour
         }
         healthBar.UpdateBar(currentHealth, maxHealth);
     }
+
     void Die()
     {
         if(gameOverPanel != null)
@@ -54,6 +57,26 @@ public class PlayerHealth : MonoBehaviour
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
+
+    public void Showblood()
+    {
+        if (bloodVfx != null)
+        {
+            bloodVfx.SetActive(true);
+            StartCoroutine(DisableAfterTime(bloodVfx, 1f));
+        }
+    }
+
+    IEnumerator DisableAfterTime(GameObject obj, float time)
+    {
+        yield return new WaitForSeconds(time);
+        if (obj != null)
+        {
+            obj.SetActive(false);
+        }
+
+    }
+
 }
 
 
