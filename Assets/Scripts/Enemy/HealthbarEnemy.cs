@@ -45,7 +45,7 @@ public class HealthbarEnemy : MonoBehaviour
             soundController.PlayAudio(enemyDie);
             healthbarEnemy.SetActive(false);
             GameManager.instance.AddScore(10);
-            Destroy(gameObject, 3f);
+            Destroy(gameObject, 1f);
             enemyLevel1.Dead();
         }
         healthBar.UpdateBar(currentHealth, maxHealth);

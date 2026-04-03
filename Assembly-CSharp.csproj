@@ -85,13 +85,14 @@
     <Compile Include="Assets\Scripts\AnimationController.cs" />
     <Compile Include="Assets\Scripts\Player\AttackPointDamage.cs" />
     <Compile Include="Assets\Joystick Pack\Scripts\Joysticks\FloatingJoystick.cs" />
-    <Compile Include="Assets\Scripts\Player\ManagerBulletPlayer.cs" />
     <Compile Include="Assets\Scripts\Vfx\AnimatedTexture.cs" />
     <Compile Include="Assets\Scripts\Player\PlayerHealth.cs" />
     <Compile Include="Assets\Cainos\Pixel Art Top Down - Basic\Script\StairsLayerTrigger.cs" />
     <Compile Include="Assets\Scripts\CameraFollow.cs" />
     <Compile Include="Assets\Scripts\Enemy\EnemyLevel1.cs" />
     <Compile Include="Assets\Scripts\Player\WeaponManager.cs" />
+    <Compile Include="Assets\Scripts\HealthBarItem.cs" />
+    <Compile Include="Assets\Scripts\Healitem.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

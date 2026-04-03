@@ -9,6 +9,7 @@ TagManager:
   - Wall
   - Score
   - Blood
+  - Chest
   layers:
   - Default
   - TransparentFX

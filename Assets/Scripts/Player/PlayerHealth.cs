@@ -26,7 +26,7 @@ public class PlayerHealth : MonoBehaviour
     {
         currentHealth = maxHealth;
         soundController = GetComponent<SoundController>();
-        if(gameOverPanel != null)
+        if (gameOverPanel != null)
         {
             gameOverPanel.SetActive(false);
         }
@@ -46,7 +46,7 @@ public class PlayerHealth : MonoBehaviour
 
     void Die()
     {
-        if(gameOverPanel != null)
+        if (gameOverPanel != null)
         {
             gameOverPanel.SetActive(true);
             Time.timeScale = 0f;
@@ -77,6 +77,15 @@ public class PlayerHealth : MonoBehaviour
 
     }
 
+    public void Heal(int amount)
+    {
+        currentHealth += amount;
+        if (currentHealth > maxHealth)
+        {
+            currentHealth = maxHealth;
+        }
+        healthBar.UpdateBar(currentHealth, maxHealth);
+    }
 }
 
 

@@ -557,6 +557,7 @@ MonoBehaviour:
   detectRadius: 7
   detectAttack: 4
   attackCoooldown: 3
+  hurtEnemy: {fileID: 8300000, guid: a4838af8952033a418221ba1e88d28db, type: 3}
   keepDistance: 3
   attackPointDamage: {fileID: 4286505765241408956}
 --- !u!114 &2136738272136004014

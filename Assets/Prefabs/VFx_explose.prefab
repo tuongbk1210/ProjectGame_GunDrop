@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3357999444475932071}
   - component: {fileID: 3357999444475932070}
   - component: {fileID: 3357999444475932069}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: VFx_explose
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -71,7 +71,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1869315837
   m_SortingLayer: 1
-  m_SortingOrder: 6
+  m_SortingOrder: 2
   m_Sprite: {fileID: -8726359049309041282, guid: 9e9f6fd5a010cd444aa638c220b6a46c,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

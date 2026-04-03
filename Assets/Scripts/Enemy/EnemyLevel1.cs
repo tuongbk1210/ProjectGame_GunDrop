@@ -31,10 +31,12 @@ public class EnemyLevel1 : MonoBehaviour, IEnemy
     float detectAttack = 4f;
 
     [Header("Patrol")]
-    [SerializeField]
-
     public float attackCoooldown = 3f;
     private float lastAttackTime;
+
+    [SerializeField]
+    AudioClip hurtEnemy;
+    SoundController soundController;
 
     [SerializeField]
     float keepDistance = 3f;
@@ -54,6 +56,7 @@ public class EnemyLevel1 : MonoBehaviour, IEnemy
         SetUPIdleAnimation();
         player = GameObject.FindGameObjectWithTag("Player").transform;
         ApplyMapLevel();
+        soundController = GetComponent<SoundController>();  
     }
 
     void Update()
@@ -198,6 +201,7 @@ public class EnemyLevel1 : MonoBehaviour, IEnemy
     public void Hurt()
     {
         Invoke(nameof(RecoverFromHurt), 0.3f);
+        soundController.PlayAudio(hurtEnemy);
     }
 
     void RecoverFromHurt()

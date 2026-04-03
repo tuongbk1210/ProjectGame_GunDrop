@@ -829,7 +829,7 @@ PrefabInstance:
     - target: {fileID: 230650343651631854, guid: c702b61d2d4a72c46820e12735c43a5e,
         type: 3}
       propertyPath: m_TagString
-      value: Wall
+      value: Chest
       objectReference: {fileID: 0}
     - target: {fileID: 748794947786203213, guid: c702b61d2d4a72c46820e12735c43a5e,
         type: 3}
@@ -840,6 +840,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_TagString
       value: Wall
+      objectReference: {fileID: 0}
+    - target: {fileID: 1933745735179996776, guid: c702b61d2d4a72c46820e12735c43a5e,
+        type: 3}
+      propertyPath: dropChange
+      value: 0.25
       objectReference: {fileID: 0}
     - target: {fileID: 2375089573049311506, guid: c702b61d2d4a72c46820e12735c43a5e,
         type: 3}
@@ -905,6 +910,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: MAP
+      objectReference: {fileID: 0}
+    - target: {fileID: 2375089573618487332, guid: c702b61d2d4a72c46820e12735c43a5e,
+        type: 3}
+      propertyPath: m_TagString
+      value: Chest
       objectReference: {fileID: 0}
     - target: {fileID: 2375089573793428278, guid: c702b61d2d4a72c46820e12735c43a5e,
         type: 3}

@@ -136,16 +136,23 @@ public class ManagerBullet : MonoBehaviour
             soundController.PlayAudio(impactWall);
             rb.velocity = Vector2.zero;
             rb.gravityScale = 1;
-            gameObject.SetActive(false);
-            Destroy(gameObject, 0.5f);
+            GetComponent<SpriteRenderer>().enabled = false;
+            GetComponent<Collider2D>().enabled = false;
+            Destroy(gameObject, 1f);
         }
         if (collision.CompareTag("Chest"))
         {
+            HealthBarItem chest  = collision.GetComponent<HealthBarItem>();
+            if(chest != null)
+            {
+                chest.TakeDamage(GetDamage());
+            }
             soundController.PlayAudio(impactChest);
             rb.velocity = Vector2.zero;
             rb.gravityScale = 1;
-            gameObject.SetActive(false);
-            Destroy(gameObject, 0.5f);
+            GetComponent<SpriteRenderer>().enabled = false;
+            GetComponent<Collider2D>().enabled = false;
+            Destroy(gameObject, 1f);
 
         }
     }
