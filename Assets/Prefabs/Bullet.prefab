@@ -94,7 +94,7 @@ BoxCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5893908794512582616}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 1
@@ -153,6 +153,7 @@ MonoBehaviour:
   damageHandShot: 30
   speed: 10
   impactWall: {fileID: 8300000, guid: 4d386948e8489854592685b0ddd8981f, type: 3}
+  impactChest: {fileID: 8300000, guid: 91daa443065120a479dd406ff2fb74bd, type: 3}
   maxDistance: 8
   weaponType: 0
   weaponTypeEnemy: 0

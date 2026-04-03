@@ -17,7 +17,10 @@ public class ManagerBullet : MonoBehaviour
     Rigidbody2D rb;
     [SerializeField]
     AudioClip impactWall;
+    [SerializeField]
+    AudioClip impactChest;
     SoundController soundController;
+
 
     Vector2 startPosition;
     public float maxDistance = 8f;
@@ -34,7 +37,7 @@ public class ManagerBullet : MonoBehaviour
         startPosition = transform.position;
         rb.velocity = transform.right * speed;
         transform.rotation = Quaternion.LookRotation(Vector3.forward, rb.velocity);
-        soundController = FindObjectOfType<SoundController>();
+        soundController = GetComponent<SoundController>();
     }
 
     private void Update()
@@ -68,7 +71,7 @@ public class ManagerBullet : MonoBehaviour
     int GetDamageEnemy()
     {
         float distance = Vector2.Distance(startPosition, transform.position);
-       
+
         switch (weaponTypeEnemy)
         {
             case WeaponType.Handgun:
@@ -124,16 +127,25 @@ public class ManagerBullet : MonoBehaviour
                 Vector2 hitPoint = collision.ClosestPoint(transform.position);
                 GameObject vfx = Instantiate(bloodVFX, hitPoint, Quaternion.identity);
                 SetSortingForVFX(vfx);
-                Destroy(vfx,0.3f);
+                Destroy(vfx, 0.3f);
             }
             Destroy(gameObject);
         }
         if (collision.CompareTag("Wall"))
         {
-            AudioSource.PlayClipAtPoint(impactWall, transform.position);
+            soundController.PlayAudio(impactWall);
             rb.velocity = Vector2.zero;
             rb.gravityScale = 1;
-            Destroy(gameObject);
+            gameObject.SetActive(false);
+            Destroy(gameObject, 0.5f);
+        }
+        if (collision.CompareTag("Chest"))
+        {
+            soundController.PlayAudio(impactChest);
+            rb.velocity = Vector2.zero;
+            rb.gravityScale = 1;
+            gameObject.SetActive(false);
+            Destroy(gameObject, 0.5f);
 
         }
     }
@@ -142,7 +154,7 @@ public class ManagerBullet : MonoBehaviour
     {
         SpriteRenderer bulletSr = GetComponent<SpriteRenderer>();
         Renderer[] renderers = vfx.GetComponentsInChildren<Renderer>();
-        foreach(Renderer r in renderers)
+        foreach (Renderer r in renderers)
         {
             r.sortingLayerID = bulletSr.sortingLayerID;
             r.sortingOrder = bulletSr.sortingOrder;
